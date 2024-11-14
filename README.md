@@ -1,2 +1,3 @@
-# memento-mori
-A flutter app
+# memento_mori
+
+A new Flutter project.
