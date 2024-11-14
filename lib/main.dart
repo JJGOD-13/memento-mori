@@ -18,17 +18,30 @@ class MainApp extends StatelessWidget {
         body: Container(
           color: Colors.black,
           child: const Center(
-            child: Text(
-              "Remember that you will die",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-              ),
+            child: Column(
+              children: [
+                Text(
+                  "You have",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                  ),
+                ),
+                Text(
+                  "24",
+                  style: TextStyle(color: Colors.white, fontSize: 90),
+                ),
+                Text(
+                  "Days to live",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
-        floatingActionButton:
-            FloatingActionButton(focusColor: Colors.blue, onPressed: () => 0),
       ),
     );
   }
