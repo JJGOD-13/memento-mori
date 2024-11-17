@@ -13,7 +13,7 @@ Map<String, int>? timeLeftToLive(int? age, int? deathYear) {
     return null;
   }
   if (age >= deathYear){
-    throw ArgumentError("Age must be lower than deathYear")
+    throw ArgumentError("Age must be lower than deathYear");
   }
 
   int yearsToLive = deathYear - age;
