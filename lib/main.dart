@@ -4,9 +4,15 @@ void main() {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  int timeLeftToLive = 0;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,10 +23,10 @@ class MainApp extends StatelessWidget {
         ),
         body: Container(
           color: Colors.black,
-          child: const Center(
+          child: Center(
             child: Column(
               children: [
-                Text(
+                const Text(
                   "You have",
                   style: TextStyle(
                     color: Colors.white,
@@ -28,11 +34,11 @@ class MainApp extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "24",
-                  style: TextStyle(color: Colors.white, fontSize: 90),
+                  timeLeftToLive == 0 ? "∞" : "$timeLeftToLive",
+                  style: const TextStyle(color: Colors.white, fontSize: 90),
                 ),
-                Text(
-                  "Days to live",
+                const Text(
+                  "Days left to live",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 30,
@@ -41,6 +47,20 @@ class MainApp extends StatelessWidget {
               ],
             ),
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            if (timeLeftToLive != null) {
+              setState(() {
+                timeLeftToLive++;
+              });
+            } else {
+              setState(() {
+                timeLeftToLive = 1;
+              });
+            }
+          },
+          child: const Icon(Icons.plus_one),
         ),
       ),
     );
