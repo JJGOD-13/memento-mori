@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MainApp());
@@ -17,6 +18,24 @@ class _MainAppState extends State<MainApp> {
   final TextEditingController _ageController = TextEditingController();
 
   // Methods
+  @override
+  void initState() {
+    super.initState();
+    _loadPreferences();
+  }
+
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      timeLeftToLive = prefs.getString('timeLeftToLive') ?? "";
+    });
+  }
+
+  Future<void> _savePreferences(String s) async {
+    final pref = await SharedPreferences.getInstance();
+
+    pref.setString('timeLeftToLive', s);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +101,7 @@ class _MainAppState extends State<MainApp> {
                                   timeLeftToLive =
                                       _ageController.text.toString();
                                   _ageController.clear();
+                                  _savePreferences(timeLeftToLive);
                                 });
                               },
                               color: Colors.blue,
