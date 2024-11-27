@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memento_mori/src/widgets/time_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -73,44 +74,10 @@ class _MainAppState extends State<MainApp> {
                       ),
                     ),
                     // Textfield to take user input.
-                    Padding(
-                      padding: const EdgeInsets.all(40.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          TextField(
-                            style: const TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                                hintText: "Enter Your Age",
-                                suffixIcon: IconButton(
-                                    onPressed: () {
-                                      _ageController.clear();
-                                    },
-                                    icon: const Icon(Icons.clear)),
-                                border: const OutlineInputBorder()),
-                            controller: _ageController,
-                            keyboardType:
-                                const TextInputType.numberWithOptions(),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: MaterialButton(
-                              padding: const EdgeInsets.all(10),
-                              onPressed: () {
-                                setState(() {
-                                  timeLeftToLive =
-                                      _ageController.text.toString();
-                                  _ageController.clear();
-                                  _savePreferences(timeLeftToLive);
-                                });
-                              },
-                              color: Colors.blue,
-                              child: const Text("Set Age"),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    TimePicker(
+                      _ageController: _ageController,
+                      onSubmit: () => _savePreferences(_ageController.text),
+                    )
                   ],
                 ),
               ),
