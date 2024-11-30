@@ -52,6 +52,8 @@ class _MainAppState extends State<MainApp> {
               child: Padding(
                 padding: const EdgeInsets.all(90.0),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center, // Center items vertically
+                  crossAxisAlignment: CrossAxisAlignment.center, // Center items horizontally
                   children: [
                     const Text(
                       "You have",
