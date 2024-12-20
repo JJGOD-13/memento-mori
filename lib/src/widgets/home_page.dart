@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
-  final String timeLeftToLive;
+  final int timeLeftToLive;
   const HomePage({super.key, required this.timeLeftToLive});
 
   @override
@@ -9,10 +10,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final formatter = NumberFormat('#,###');
   @override
   Widget build(BuildContext context) {
     return Container(
-      
       color: Colors.black,
       child: Center(
         child: Padding(
@@ -32,10 +33,16 @@ class _HomePageState extends State<HomePage> {
               ),
               // Users time left to live.
               Text(
-                widget.timeLeftToLive == '' ? "∞" : widget.timeLeftToLive,
-                style: const TextStyle(color: Colors.white, fontSize: 90),
+                widget.timeLeftToLive == 0
+                    ? "∞"
+                    : formatter.format(widget.timeLeftToLive),
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold),
               ),
               const Text(
+                textAlign: TextAlign.center,
                 "Days left to live",
                 style: TextStyle(
                   color: Colors.white,
@@ -44,12 +51,9 @@ class _HomePageState extends State<HomePage> {
               ),
               // Textfield to take user input.
             ],
-          
           ),
         ),
       ),
-   
     );
-
   }
 }

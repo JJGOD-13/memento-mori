@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TimePicker extends StatelessWidget {
   final TextEditingController ageController;
@@ -18,10 +19,11 @@ class TimePicker extends StatelessWidget {
         mainAxisSize: MainAxisSize.min, // Ensure the column takes minimum space
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          TextField(
+          TextFormField(
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
               hintText: "Enter Your Age",
+              errorStyle: const TextStyle(color: Colors.red),
               suffixIcon: IconButton(
                 onPressed: () {
                   ageController.clear();
@@ -32,6 +34,18 @@ class TimePicker extends StatelessWidget {
             ),
             controller: ageController,
             keyboardType: const TextInputType.numberWithOptions(),
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Please enter your age";
+              }
+              if (int.tryParse(value) == null) {
+                return 'Your age should ideally be a number';
+              } else {
+                return null;
+              }
+            },
+            autovalidateMode: AutovalidateMode.onUnfocus,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10),

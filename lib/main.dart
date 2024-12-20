@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memento_mori/src/widgets/home_page.dart';
 import 'package:memento_mori/src/widgets/time_picker.dart';
+import 'package:memento_mori/src/utils/time_to_live_algo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -16,7 +17,8 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   // Variables
-  String timeLeftToLive = '';
+  int _timeLeftToLive = 0;
+  final int _avgDeathAge = 82;
   final TextEditingController _ageController = TextEditingController();
 
   // Methods
@@ -29,16 +31,23 @@ class _MainAppState extends State<MainApp> {
   Future<void> _loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      timeLeftToLive = prefs.getString('timeLeftToLive') ?? "";
+      _timeLeftToLive = prefs.getInt('timeLeftToLive') ?? 0;
     });
   }
 
-  Future<void> _savePreferences(String s) async {
+  Future<void> _saveUserAge(int s) async {
     final pref = await SharedPreferences.getInstance();
 
-    pref.setString('timeLeftToLive', s);
+    // Convert to correct death time
+    var time = timeLeftToLive(s, _avgDeathAge);
+
+    if (time == null) {
+      throw Exception("Failed to recieve proper map");
+    }
+
+    pref.setInt('timeLeftToLive', time["Days"]!);
     setState(() {
-      timeLeftToLive = s;
+      _timeLeftToLive = s;
     });
   }
 
@@ -46,13 +55,13 @@ class _MainAppState extends State<MainApp> {
     final pref = await SharedPreferences.getInstance();
     pref.clear();
     setState(() {
-      timeLeftToLive = '';
+      _timeLeftToLive = 0;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (timeLeftToLive == "") {
+    if (_timeLeftToLive == 0) {
       return MaterialApp(
         home: Builder(builder: (context) {
           return Scaffold(
@@ -65,7 +74,7 @@ class _MainAppState extends State<MainApp> {
               child: TimePicker(
                 ageController: _ageController,
                 onSubmit: () async {
-                  await _savePreferences(_ageController.text);
+                  await _saveUserAge(int.parse(_ageController.text));
                   _loadPreferences();
                 },
               ),
@@ -81,7 +90,7 @@ class _MainAppState extends State<MainApp> {
               backgroundColor: Colors.grey,
               title: const Text("Memento Mori"),
             ),
-            body: HomePage(timeLeftToLive: timeLeftToLive),
+            body: HomePage(timeLeftToLive: _timeLeftToLive),
             floatingActionButton:
                 FloatingActionButton(onPressed: () => {_deletepreferences()}),
           );
