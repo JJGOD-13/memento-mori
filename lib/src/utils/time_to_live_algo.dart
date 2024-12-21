@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-Map<String, int>? timeLeftToLive(int? age, int? deathYear) {
+Map<String, int>? timeLeftToLive(int? age, int deathYear) {
   /* Returns a hashmap containing the keys:
     Days
     Weeks
@@ -9,15 +9,15 @@ Map<String, int>? timeLeftToLive(int? age, int? deathYear) {
     Corresponding to the time that user has left to live.
    */
 
-  if (age == null || deathYear == null){
+  if (age == null) {
     return null;
   }
-  if (age >= deathYear){
+  if (age >= deathYear) {
     throw ArgumentError("Age must be lower than deathYear");
   }
 
   int yearsToLive = deathYear - age;
-  
+
   // Calculate months left to live
   int monthsToLive = yearsToLive * 12;
 
