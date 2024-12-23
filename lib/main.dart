@@ -118,6 +118,7 @@ class _MainAppState extends State<MainApp> {
                 onPreferenceChanged: (pref) {
                   setState(() {
                     _userDisplayPreference = pref;
+                    _saveUserInput(int.parse(_ageController.text));
                     _loadPreferences(_userDisplayPreference);
                   });
                 },
