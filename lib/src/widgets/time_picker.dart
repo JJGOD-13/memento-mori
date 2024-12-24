@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:memento_mori/src/utils/enums.dart';
 
 class TimePicker extends StatelessWidget {
   final TextEditingController ageController;
   final VoidCallback onSubmit;
+  final Function(UserDisplayPreferences) onPreferenceChanged;
 
   const TimePicker({
     super.key,
     required this.ageController,
     required this.onSubmit,
+    required this.onPreferenceChanged,
   });
 
   @override
@@ -56,6 +59,21 @@ class TimePicker extends StatelessWidget {
               child: const Text("Submit"),
             ),
           ),
+          DropdownButtonFormField(
+            items: UserDisplayPreferences.values
+                // For each value in values convert it to a string and collect into a list.
+                .map<DropdownMenuItem<UserDisplayPreferences>>(
+                    (UserDisplayPreferences value) {
+              return DropdownMenuItem(
+                  value: value, child: Text(value.toString().split('.').last));
+            }).toList(),
+            onChanged: (UserDisplayPreferences? newValue) {
+              if (newValue != null) {
+                onPreferenceChanged(newValue);
+              }
+            },
+            value: UserDisplayPreferences.days,
+          )
         ],
       ),
     );

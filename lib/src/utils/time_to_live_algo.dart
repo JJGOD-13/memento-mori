@@ -1,6 +1,38 @@
-import 'dart:collection';
+class Expectancy {
+  int? days;
+  int? weeks;
+  int? months;
+  int? years;
 
-Map<String, int>? timeLeftToLive(int? age, int deathYear) {
+  Expectancy(this.days, this.months, this.weeks, this.years);
+
+  static Expectancy fromJson(Map<String, dynamic> jsonDecode) {
+    return Expectancy(
+      jsonDecode['days'],
+      jsonDecode['months'],
+      jsonDecode['weeks'],
+      jsonDecode['years'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'days': days,
+      'weeks': weeks,
+      'months': months,
+      'years': years,
+    };
+  }
+
+  void clear() {
+    days = 0;
+    weeks = 0;
+    months = 0;
+    years = 0;
+  }
+}
+
+Expectancy? timeLeftToLive(int? age, int deathYear) {
   /* Returns a hashmap containing the keys:
     Days
     Weeks
@@ -28,12 +60,8 @@ Map<String, int>? timeLeftToLive(int? age, int deathYear) {
 
   int daysToLive = weeksToLive * 7;
 
-  final Map<String, int> retMap = HashMap();
-
-  retMap["Years"] = yearsToLive;
-  retMap["Months"] = monthsToLive;
-  retMap["Weeks"] = weeksToLive;
-  retMap["Days"] = daysToLive;
+  final Expectancy retMap =
+      Expectancy(daysToLive, monthsToLive, weeksToLive, yearsToLive);
 
   return retMap;
 }
