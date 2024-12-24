@@ -14,3 +14,7 @@
 4. Push your branch to the repository.
 5. Create a pull request to the main branch of the repository.
 6. Wait for the pull request to be reviewed and merged.
+
+## Further Help
+
+https://github.com/Solido/awesome-flutter
