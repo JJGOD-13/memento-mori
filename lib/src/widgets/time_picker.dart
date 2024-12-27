@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:memento_mori/main.dart';
+import 'package:memento_mori/src/providers/user_age_provider.dart';
+import 'package:memento_mori/src/providers/user_display_prefs_provider.dart';
 import 'package:memento_mori/src/utils/enums.dart';
-import 'package:memento_mori/src/utils/time_to_live_algo.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class TimePicker extends StatefulWidget {
   const TimePicker({
@@ -17,23 +19,6 @@ class TimePicker extends StatefulWidget {
 
 class _TimePickerState extends State<TimePicker> {
   var ageController = TextEditingController();
-
-  void _saveDisplayPreferences(UserDisplayPreferences newValue) async {
-    var prefs = SharedPreferencesAsync();
-    prefs.setInt("userDisplayPreference", newValue.index);
-  }
-
-  void onPreferenceChanged(UserDisplayPreferences newValue) {
-    _saveDisplayPreferences(newValue);
-  }
-
-  void submitInput() async {
-    var prefs = SharedPreferencesAsync();
-    var times = timeLeftToLive(int.tryParse(ageController.text), 80);
-    prefs.setString("timesLeftToLive", jsonEncode(times?.toJson()));
-
-    Navigator.pop(context);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +66,13 @@ class _TimePickerState extends State<TimePicker> {
               padding: const EdgeInsets.only(top: 10),
               child: MaterialButton(
                 padding: const EdgeInsets.all(10),
-                onPressed: submitInput,
+                onPressed: () {
+                  var newAge = ageController.text;
+                  context.read<UserAgeProvider>().setUserAge(
+                      // This ideally should never fail since we validate user input
+                      newAge: int.tryParse(newAge) ?? 0);
+                  Navigator.popAndPushNamed(context, MementoRoutes.home);
+                },
                 color: Colors.blue,
                 child: const Text("Submit"),
               ),
@@ -97,7 +88,9 @@ class _TimePickerState extends State<TimePicker> {
               }).toList(),
               onChanged: (UserDisplayPreferences? newValue) {
                 if (newValue != null) {
-                  onPreferenceChanged(newValue);
+                  context
+                      .read<UserDisplayPrefsProvider>()
+                      .setUserDisplayPref(newPref: newValue);
                 }
               },
               value: UserDisplayPreferences.days,

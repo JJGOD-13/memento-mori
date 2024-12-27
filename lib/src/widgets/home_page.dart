@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:memento_mori/src/providers/user_age_provider.dart';
+import 'package:memento_mori/src/providers/user_display_prefs_provider.dart';
 import 'package:memento_mori/src/widgets/time_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,22 +14,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final formatter = NumberFormat('#,###');
-  int _timeLeftToLive = 0;
-  @override
-  void initState() {
-    super.initState();
-    _loadPreferences();
-  }
-
-  Future<void> _loadPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _timeLeftToLive = prefs.getInt('timeLeftToLive') ?? 0;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    var timeLeftToLive = context.watch<UserAgeProvider>().userAge;
+    var usrDispPref =
+        context.watch<UserDisplayPrefsProvider>().userDisplayPreference;
+    var displayString = usrDispPref.name[0].toUpperCase() +
+        usrDispPref.name.substring(1).toLowerCase();
     return Scaffold(
       appBar: AppBar(
         title: Text("Memento Mori"),
@@ -36,9 +30,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: ElevatedButton(
           onPressed: () {
             Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => TimePicker()),
-            );
+                context, MaterialPageRoute(builder: (context) => TimePicker()));
           },
           child: Icon(
             Icons.add,
@@ -64,17 +56,15 @@ class _HomePageState extends State<HomePage> {
                 ),
                 // Users time left to live.
                 Text(
-                  _timeLeftToLive == 0
-                      ? "∞"
-                      : formatter.format(_timeLeftToLive),
+                  timeLeftToLive == 0 ? "∞" : formatter.format(timeLeftToLive),
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 50,
                       fontWeight: FontWeight.bold),
                 ),
-                const Text(
+                Text(
+                  "$displayString left to live",
                   textAlign: TextAlign.center,
-                  "Days left to live",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 30,
