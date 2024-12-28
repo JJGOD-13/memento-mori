@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:memento_mori/src/providers/user_age_provider.dart';
 import 'package:memento_mori/src/providers/user_display_prefs_provider.dart';
+import 'package:memento_mori/src/widgets/memento_app_bar.dart';
 import 'package:memento_mori/src/widgets/time_picker.dart';
+import 'package:memento_mori/src/widgets/memento_drawer.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,10 +25,10 @@ class _HomePageState extends State<HomePage> {
     var displayString = usrDispPref.name[0].toUpperCase() +
         usrDispPref.name.substring(1).toLowerCase();
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Memento Mori"),
-        centerTitle: false,
+      appBar: MementoAppBar(
+        renderSettings: true,
       ),
+      drawer: MementoDrawer(),
       floatingActionButton: ElevatedButton(
           onPressed: () {
             Navigator.push(
