@@ -1,5 +1,5 @@
 name: memento_mori
-description: "A new Flutter project."
+description: "A flutter app to help you visualise the finite time you ahve left and live life with purpose."
 publish_to: 'none'
 version: 0.1.0
 
@@ -12,6 +12,7 @@ dependencies:
   shared_preferences: ^2.3.3
   intl: ^0.18.0
   provider: 
+  url_launcher: 
 
 dev_dependencies:
   flutter_test:
