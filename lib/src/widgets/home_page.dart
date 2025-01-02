@@ -1,3 +1,4 @@
+import 'package:dart_casing/dart_casing.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:memento_mori/src/providers/user_age_provider.dart';
@@ -22,8 +23,7 @@ class _HomePageState extends State<HomePage> {
     var timeLeftToLive = context.watch<UserAgeProvider>().userAge;
     var usrDispPref =
         context.watch<UserDisplayPrefsProvider>().userDisplayPreference;
-    var displayString = usrDispPref.name[0].toUpperCase() +
-        usrDispPref.name.substring(1).toLowerCase();
+    var displayString = Casing.titleCase(usrDispPref.name);
     return Scaffold(
       appBar: MementoAppBar(
         renderSettings: true,
