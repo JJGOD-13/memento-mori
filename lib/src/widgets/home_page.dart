@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:memento_mori/src/providers/user_age_provider.dart';
 import 'package:memento_mori/src/providers/user_display_prefs_provider.dart';
+import 'package:memento_mori/src/utils/enums.dart';
 import 'package:memento_mori/src/widgets/memento_app_bar.dart';
-import 'package:memento_mori/src/widgets/time_picker.dart';
 import 'package:memento_mori/src/widgets/memento_drawer.dart';
 import 'package:provider/provider.dart';
+import 'package:memento_mori/src/utils/time_to_live_algo.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,13 +18,37 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final formatter = NumberFormat('#,###');
+  final deathYear = 80;
+
+  /// Return the users death time based on their current age and their
+  /// display display pref.
+  ///
+  int _calc_death_day(int currAge, UserDisplayPreferences usrDispPref) {
+    var timeleft = timeLeftToLive(currAge, deathYear)!;
+
+    switch (usrDispPref) {
+      case UserDisplayPreferences.days:
+        return timeleft.days!;
+      case UserDisplayPreferences.weeks:
+        return timeleft.weeks!;
+      case UserDisplayPreferences.months:
+        return timeleft.months!;
+      case UserDisplayPreferences.years:
+        return timeleft.years!;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    var timeLeftToLive = context.watch<UserAgeProvider>().userAge;
+    // Variables
+    var currAge = context.watch<UserAgeProvider>().userAge;
     var usrDispPref =
         context.watch<UserDisplayPrefsProvider>().userDisplayPreference;
     var displayString = Casing.titleCase(usrDispPref.name);
+
+    // Calculate death day
+    var timeToDeathDay = _calc_death_day(currAge, usrDispPref);
+
     return Scaffold(
       appBar: MementoAppBar(
         renderSettings: true,
@@ -59,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 // Users time left to live.
                 Text(
-                  timeLeftToLive == 0 ? "∞" : formatter.format(timeLeftToLive),
+                  currAge == 0 ? "∞" : formatter.format(timeToDeathDay),
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 50,
