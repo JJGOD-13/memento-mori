@@ -1,3 +1,4 @@
+import 'package:dart_casing/dart_casing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:memento_mori/main.dart';
@@ -61,6 +62,36 @@ class _TimePickerState extends State<TimePicker> {
               autovalidateMode: AutovalidateMode.onUnfocus,
             ),
             Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: DropdownButtonFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+                items: UserDisplayPreferences.values
+                    // For each value in values convert it to a string and collect into a list.
+                    .map<DropdownMenuItem<UserDisplayPreferences>>(
+                  (UserDisplayPreferences value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(
+                        Casing.titleCase(
+                          value.toString().split('.').last,
+                        ),
+                      ),
+                    );
+                  },
+                ).toList(),
+                onChanged: (UserDisplayPreferences? newValue) {
+                  if (newValue != null) {
+                    context
+                        .read<UserDisplayPrefsProvider>()
+                        .setUserDisplayPref(newPref: newValue);
+                  }
+                },
+                value: UserDisplayPreferences.days,
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.only(top: 10),
               child: MaterialButton(
                 padding: const EdgeInsets.all(10),
@@ -75,24 +106,6 @@ class _TimePickerState extends State<TimePicker> {
                 child: const Text("Submit"),
               ),
             ),
-            DropdownButtonFormField(
-              items: UserDisplayPreferences.values
-                  // For each value in values convert it to a string and collect into a list.
-                  .map<DropdownMenuItem<UserDisplayPreferences>>(
-                      (UserDisplayPreferences value) {
-                return DropdownMenuItem(
-                    value: value,
-                    child: Text(value.toString().split('.').last));
-              }).toList(),
-              onChanged: (UserDisplayPreferences? newValue) {
-                if (newValue != null) {
-                  context
-                      .read<UserDisplayPrefsProvider>()
-                      .setUserDisplayPref(newPref: newValue);
-                }
-              },
-              value: UserDisplayPreferences.days,
-            )
           ],
         ),
       ),
