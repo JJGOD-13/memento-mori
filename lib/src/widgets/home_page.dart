@@ -29,15 +29,16 @@ class _HomePageState extends State<HomePage> {
         renderSettings: true,
       ),
       drawer: MementoDrawer(),
-      floatingActionButton: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => TimePicker()));
-          },
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-          )),
+      //floatingActionButton: ElevatedButton(
+      //  onPressed: () {
+      //    Navigator.push(
+      //        context, MaterialPageRoute(builder: (context) => TimePicker()));
+      //  },
+      //  child: Icon(
+      //    Icons.add,
+      //    color: Colors.white,
+      //  ),
+      //),
       body: Container(
         color: Colors.black,
         child: Center(
