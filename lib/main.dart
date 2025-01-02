@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:memento_mori/src/providers/user_age_provider.dart';
 import 'package:memento_mori/src/providers/user_display_prefs_provider.dart';
-import 'package:memento_mori/src/utils/enums.dart';
 import 'package:memento_mori/src/widgets/home_page.dart';
 import 'package:memento_mori/src/widgets/time_picker.dart';
-import 'package:memento_mori/src/utils/time_to_live_algo.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 void main() {
   runApp(const MainApp());
