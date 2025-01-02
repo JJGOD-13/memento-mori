@@ -20,8 +20,22 @@ class TimePicker extends StatefulWidget {
 class _TimePickerState extends State<TimePicker> {
   var ageController = TextEditingController();
 
+  /// Set the value within the ageContorller based on if the user has previously
+  /// filled an age value.
+  void _set_controller_value(int currAge, TextEditingController ageController) {
+    if (currAge != 0) {
+      ageController.text = currAge.toString();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    var currAge = context.watch<UserAgeProvider>().userAge;
+    var usrDispPref =
+        context.watch<UserDisplayPrefsProvider>().userDisplayPreference;
+
+    _set_controller_value(currAge, ageController);
+
     return Scaffold(
       appBar: MementoAppBar(
         renderSettings: false,
@@ -88,7 +102,7 @@ class _TimePickerState extends State<TimePicker> {
                         .setUserDisplayPref(newPref: newValue);
                   }
                 },
-                value: UserDisplayPreferences.days,
+                value: usrDispPref,
               ),
             ),
             Padding(
