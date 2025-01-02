@@ -1,6 +1,6 @@
 name: memento_mori
 description: "A flutter app to help you visualise the finite time you ahve left and live life with purpose."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -11,8 +11,9 @@ dependencies:
     sdk: flutter
   shared_preferences: ^2.3.3
   intl: ^0.18.0
-  provider: 
-  url_launcher: 
+  provider:
+  url_launcher:
+  dart_casing:
 
 dev_dependencies:
   flutter_test:
