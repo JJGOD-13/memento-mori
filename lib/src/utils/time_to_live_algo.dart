@@ -33,7 +33,7 @@ class Expectancy {
 }
 
 Expectancy? timeLeftToLive(int? age, int deathYear) {
-  /* Returns a hashmap containing the keys:
+  /* Returns a Expectancy object containing the keys:
     Days
     Weeks
     Months
@@ -44,8 +44,14 @@ Expectancy? timeLeftToLive(int? age, int deathYear) {
   if (age == null) {
     return null;
   }
+  if (age <= 0) {
+    throw ArgumentError("Age can't be <= 0");
+  }
   if (age >= deathYear) {
     throw ArgumentError("Age must be lower than deathYear");
+  }
+  if (deathYear <= 0) {
+    throw ArgumentError("DeathYear can't be <= 0");
   }
 
   int yearsToLive = deathYear - age;
