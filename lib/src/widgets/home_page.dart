@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:memento_mori/src/providers/user_age_provider.dart';
 import 'package:memento_mori/src/providers/user_display_prefs_provider.dart';
 import 'package:memento_mori/src/widgets/memento_app_bar.dart';
-import 'package:memento_mori/src/widgets/time_picker.dart';
 import 'package:memento_mori/src/widgets/memento_drawer.dart';
 import 'package:provider/provider.dart';
 
