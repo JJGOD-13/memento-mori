@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:memento_mori/src/providers/user_age_provider.dart';
 import 'package:memento_mori/src/providers/user_display_prefs_provider.dart';
+import 'package:memento_mori/src/utils/time_to_live_algo.dart';
 import 'package:memento_mori/src/widgets/memento_app_bar.dart';
 import 'package:memento_mori/src/widgets/memento_drawer.dart';
 import 'package:provider/provider.dart';
@@ -19,10 +20,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var timeLeftToLive = context.watch<UserAgeProvider>().getUserExpectancy();
+    var usrAge = context.watch<UserAgeProvider>().userAge;
+    var usrExpectancy = timeLeftToLive(
+        usrAge, context.watch<UserAgeProvider>().genericDeathDay);
     var usrDispPref =
         context.watch<UserDisplayPrefsProvider>().userDisplayPreference;
     var displayString = Casing.titleCase(usrDispPref.name);
+    var usrTimeLeftToLive = usrExpectancy?.fromDisplayPref(usrDispPref);
+
     return Scaffold(
       appBar: MementoAppBar(
         renderSettings: true,
@@ -58,7 +63,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 // Users time left to live.
                 Text(
-                  timeLeftToLive == 0 ? "∞" : formatter.format(timeLeftToLive),
+                  usrTimeLeftToLive == 0
+                      ? "∞"
+                      : formatter.format(usrTimeLeftToLive),
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 50,
