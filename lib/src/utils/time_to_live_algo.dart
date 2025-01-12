@@ -61,8 +61,6 @@ Expectancy? timeLeftToLive(int? age, int deathYear) {
   if (age == null) {
     return null;
   }
-  if (age <= 0) {
-    throw ArgumentError("Age can't be <= 0");
   if (age < 0) {
     throw ArgumentError("Age can't be < 0");
   }
@@ -85,8 +83,5 @@ Expectancy? timeLeftToLive(int? age, int deathYear) {
 
   int daysToLive = weeksToLive * 7;
 
-  final Expectancy retMap =
-      Expectancy(daysToLive, monthsToLive, weeksToLive, yearsToLive);
-
-  return retMap;
+  return Expectancy(daysToLive, monthsToLive, weeksToLive, yearsToLive);
 }
