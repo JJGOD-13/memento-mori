@@ -63,6 +63,8 @@ Expectancy? timeLeftToLive(int? age, int deathYear) {
   }
   if (age <= 0) {
     throw ArgumentError("Age can't be <= 0");
+  if (age < 0) {
+    throw ArgumentError("Age can't be < 0");
   }
   if (age >= deathYear) {
     throw ArgumentError("Age must be lower than deathYear");
