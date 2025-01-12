@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var timeLeftToLive = context.watch<UserAgeProvider>().userAge;
+    var timeLeftToLive = context.watch<UserAgeProvider>().getUserExpectancy();
     var usrDispPref =
         context.watch<UserDisplayPrefsProvider>().userDisplayPreference;
     var displayString = Casing.titleCase(usrDispPref.name);
