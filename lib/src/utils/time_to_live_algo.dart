@@ -1,3 +1,5 @@
+import 'package:memento_mori/src/utils/enums.dart';
+
 class Expectancy {
   int? days;
   int? weeks;
@@ -29,6 +31,21 @@ class Expectancy {
     weeks = 0;
     months = 0;
     years = 0;
+  }
+
+  /// Return the corresponding death format based on the
+  /// user specified UserDisplayPreference
+  int fromDisplayPref(UserDisplayPreferences usrDispPref) {
+    switch (usrDispPref) {
+      case UserDisplayPreferences.days:
+        return days!;
+      case UserDisplayPreferences.weeks:
+        return weeks!;
+      case UserDisplayPreferences.months:
+        return months!;
+      case UserDisplayPreferences.years:
+        return years!;
+    }
   }
 }
 
