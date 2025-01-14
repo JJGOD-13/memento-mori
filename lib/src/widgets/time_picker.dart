@@ -28,6 +28,7 @@ class _TimePickerState extends State<TimePicker> {
     // Variables
 
     var usrAge = context.watch<UserAgeProvider>().userAge;
+    ageController.text = usrAge.toString();
     var usrDeathDay = context.watch<UserAgeProvider>().genericDeathDay;
 
     var usrDispPref =
