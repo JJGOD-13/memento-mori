@@ -21,11 +21,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var usrAge = context.watch<UserAgeProvider>().userAge;
-    var usrExpectancy = timeLeftToLive(
-        usrAge, context.watch<UserAgeProvider>().genericDeathDay);
     var usrDispPref =
         context.watch<UserDisplayPrefsProvider>().userDisplayPreference;
     var displayString = Casing.titleCase(usrDispPref.name);
+    Expectancy? usrExpectancy;
+    try {
+      usrExpectancy = timeLeftToLive(
+          usrAge, context.watch<UserAgeProvider>().genericDeathDay);
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Something went wrong: $e")));
+    }
     var usrTimeLeftToLive = usrExpectancy?.fromDisplayPref(usrDispPref);
 
     return Scaffold(
@@ -33,16 +39,6 @@ class _HomePageState extends State<HomePage> {
         renderSettings: true,
       ),
       drawer: MementoDrawer(),
-      //floatingActionButton: ElevatedButton(
-      //  onPressed: () {
-      //    Navigator.push(
-      //        context, MaterialPageRoute(builder: (context) => TimePicker()));
-      //  },
-      //  child: Icon(
-      //    Icons.add,
-      //    color: Colors.white,
-      //  ),
-      //),
       body: Container(
         color: Colors.black,
         child: Center(
