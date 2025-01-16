@@ -1,3 +1,5 @@
+import 'package:memento_mori/src/utils/enums.dart';
+
 class Expectancy {
   int? days;
   int? weeks;
@@ -30,6 +32,21 @@ class Expectancy {
     months = 0;
     years = 0;
   }
+
+  /// Return the corresponding death format based on the
+  /// user specified UserDisplayPreference
+  int fromDisplayPref(UserDisplayPreferences usrDispPref) {
+    switch (usrDispPref) {
+      case UserDisplayPreferences.days:
+        return days!;
+      case UserDisplayPreferences.weeks:
+        return weeks!;
+      case UserDisplayPreferences.months:
+        return months!;
+      case UserDisplayPreferences.years:
+        return years!;
+    }
+  }
 }
 
 Expectancy? timeLeftToLive(int? age, int deathYear) {
@@ -44,8 +61,8 @@ Expectancy? timeLeftToLive(int? age, int deathYear) {
   if (age == null) {
     return null;
   }
-  if (age <= 0) {
-    throw ArgumentError("Age can't be <= 0");
+  if (age < 0) {
+    throw ArgumentError("Age can't be < 0");
   }
   if (age >= deathYear) {
     throw ArgumentError("Age must be lower than deathYear");
@@ -66,8 +83,5 @@ Expectancy? timeLeftToLive(int? age, int deathYear) {
 
   int daysToLive = weeksToLive * 7;
 
-  final Expectancy retMap =
-      Expectancy(daysToLive, monthsToLive, weeksToLive, yearsToLive);
-
-  return retMap;
+  return Expectancy(daysToLive, monthsToLive, weeksToLive, yearsToLive);
 }
