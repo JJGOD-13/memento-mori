@@ -10,13 +10,14 @@ dependencies:
   flutter:
     sdk: flutter
   shared_preferences: ^2.3.3
-  intl: 
+  intl:
   provider:
   url_launcher:
   dart_casing:
   test:
-  flutter_form_builder: 
-  form_builder_validators: ^11.1.1 
+  flutter_form_builder:
+  form_builder_validators: ^11.1.1
+  home_widget: ^0.7.0
 
 dev_dependencies:
   flutter_test:

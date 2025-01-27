@@ -1,5 +1,6 @@
 import 'package:dart_casing/dart_casing.dart';
 import 'package:flutter/material.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:memento_mori/src/providers/user_age_provider.dart';
 import 'package:memento_mori/src/providers/user_display_prefs_provider.dart';
@@ -17,6 +18,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final formatter = NumberFormat('#,###');
+
+  // Home Widget vars
+  String appGroupID = "group.MementoApp";
+  String iOSWidgetName = "MementoHomeWidget";
+  String androidWidgetName = "MementoHomeWidget";
+  String dataKey = "text_from_memento_app";
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialise home widgets with group id
+    HomeWidget.setAppGroupId(appGroupID);
+  }
 
   @override
   Widget build(BuildContext context) {
