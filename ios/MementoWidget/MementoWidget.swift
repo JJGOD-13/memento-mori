@@ -9,26 +9,26 @@ import WidgetKit
 import SwiftUI
 
 struct Provider: AppIntentTimelineProvider {
+    
+    private func getDataFromFlutter() -> SimpleEntry {
+        let userDefaults = UserDefaults(suiteName: "group.MementoApp")
+        let textFromApp = userDefaults?.string(forKey: "text_from_memento_app") ?? "0"
+        return SimpleEntry(date: Date(), text: textFromApp)
+    }
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())
+        SimpleEntry(date: Date(), text: "Hello World")
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration)
+        getDataFromFlutter()
     }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        var entries: [SimpleEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
-        }
+        let entry = getDataFromFlutter()
 
-        return Timeline(entries: entries, policy: .atEnd)
+        return Timeline(entries: [entry], policy: .atEnd)
     }
 
 //    func relevances() async -> WidgetRelevances<ConfigurationAppIntent> {
@@ -38,7 +38,7 @@ struct Provider: AppIntentTimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let configuration: ConfigurationAppIntent
+    let text: String
 }
 
 struct MementoWidgetEntryView : View {
@@ -46,11 +46,11 @@ struct MementoWidgetEntryView : View {
 
     var body: some View {
         VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
+            Text("Time Left To Live:")
+            Text(entry.text)
 
-            Text("Favorite Emoji:")
-            Text(entry.configuration.favoriteEmoji)
+
+ 
         }
     }
 }
@@ -83,6 +83,6 @@ extension ConfigurationAppIntent {
 #Preview(as: .systemSmall) {
     MementoWidget()
 } timeline: {
-    SimpleEntry(date: .now, configuration: .smiley)
-    SimpleEntry(date: .now, configuration: .starEyes)
+    SimpleEntry(date: .now, text: "0")
+    SimpleEntry(date: .now, text: "0")
 }
